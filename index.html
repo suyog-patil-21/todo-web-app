@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css" />
+    <title>Todo List</title>
+  </head>
+  <body>
+    <main>
+        <div class="mainContainer">
+            <h1 id="title">Todo</h1>
+            <section id="todo-list-section">
+                <ul id="todos-list">
+                </ul>
+            </section>
+            <section >
+                <div id="todo-add-section" >
+                    <input id="inputTitle" class="inputElements" type="text" name="taskTitle" placeholder="Task name here..."></input>
+                    <textarea id="inputdesc" class="inputElements" type="" name="taskTitle" placeholder="Task name here..."></textarea>
+                    <div class="todo-add-panel-bottom">
+                        <button id="addTaskBtn">Add Task</button>
+                        <button id="deleteAllTaskBtn">Delete All</button>
+                    </div>                   
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>

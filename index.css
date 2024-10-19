@@ -1,0 +1,155 @@
+/*
+Color Background :  #edecf2
+surface : #fefffe
+primary ; #682ee4
+light onSurface color : #df1f1e
+error: #df1f1e
+ */
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.inter-tight-normal {
+  font-family: "Inter Tight", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+body {
+  background-color: #edecf2;
+  font-family: "Inter Tight";
+}
+
+.mainContainer {
+  margin: 1rem;
+  background-color: #fefffe;
+  min-width: 300px;
+  max-width: 500px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 3px #716d85;
+  padding: 1rem;
+}
+
+#todo-list-section {
+  min-height: 200px;
+  padding: 0.5rem;
+}
+
+#title {
+  display: inline;
+  font-size: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #682ee4;
+  font-weight: bold;
+}
+
+#todos-list {
+  list-style: none;
+  margin: 0.5rem 0.2rem;
+}
+
+.todo-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  border-radius: 6px;
+}
+
+.todo-item:hover {
+  background-color: #c5bfcf;
+}
+
+
+.todo-item .icon {
+   height: 20px;
+   width: 20px;
+   margin: 1rem 1rem 1rem 0.5rem;
+   border: 1px solid #6e6868;
+   border-radius: 50px;
+   background-color: #fff;
+   text-align: center;
+ }
+ 
+ .todo-item .iconTick {
+   background-color: #682ee4;
+   color: white;
+ }
+ 
+
+.todo-item button {
+  border: 0px solid #c73737;
+  border-radius: 6px;
+  color: #df1f1e;
+  padding: 0.5rem 0.6rem;
+  background-color: #e7cece;
+  margin: 0.5rem 0.5rem;
+}
+
+.todo-item button:hover {
+  border: 0px solid #c73737;
+  border-radius: 6px;
+  color: #df1f1e;
+  padding: 0.5rem 0.6rem;
+  background-color: #e4dbdb;
+  margin: 0.5rem 0.5rem;
+}
+
+.item-content {
+   flex-grow: 3;
+   font-weight: 600;
+   width: 80%;
+ }
+ 
+ .item-title-content {
+   font-size: 1rem;
+  
+ }
+ 
+ .item-desc-content {
+   font-size: 0.8rem;
+   color: #5f5e61;
+   overflow:  hidden;
+   text-overflow: clip;
+ }
+ .item-trailing {
+   width: 10%;
+ }
+
+#todo-add-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputElements {
+  padding: 0.5rem;
+  border: 0px;
+  background-color: #edeaf3;
+  border-radius: 6px;
+  margin: 0.5rem 0.5rem;
+  outline: none;
+  font-size: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  margin: 6px;
+  border: 0px;
+  background-color: #682ee4;
+  color: white;
+  border-radius: 6px;
+}
+
+#inputdesc {
+  height: 6rem;
+}
+
+.todo-add-panel-bottom {
+  display: flex;
+  justify-content: end;
+}
+
+
