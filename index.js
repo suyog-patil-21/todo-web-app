@@ -21,19 +21,43 @@ class TodoManager {
     localStorage.setItem(TODO_KEY_LOCAL, JSON.stringify(this.tasks));
   }
 
-  markDone(id){
-    this.tasks = this.tasks.map((el)=>{
-      if(el.id == id){
+  markDone(id) {
+    this.tasks = this.tasks.map((el) => {
+      if (el.id == id) {
         return {
           ...el,
-          isDone:!el.isDone
-        } 
+          isDone: !el.isDone,
+        };
+      }
+      return el;
+    });
+    localStorage.setItem(TODO_KEY_LOCAL, JSON.stringify(this.tasks));
+  }
+  updateTaskTitle(id, newValue) {
+    this.tasks = this.tasks.map((el) => {
+      if (el.id == id) {
+        return {
+          ...el,
+          title: newValue,
+        };
       }
       return el;
     });
     localStorage.setItem(TODO_KEY_LOCAL, JSON.stringify(this.tasks));
   }
 
+  updateTaskDesc(id, newValue) {
+    this.tasks = this.tasks.map((el) => {
+      if (el.id == id) {
+        return {
+          ...el,
+          desc: newValue,
+        };
+      }
+      return el;
+    });
+    localStorage.setItem(TODO_KEY_LOCAL, JSON.stringify(this.tasks));
+  }
   clearTask() {
     this.tasks = [];
     localStorage.clear();
@@ -45,6 +69,10 @@ const inputDesc = document.getElementById("inputdesc");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const deleteAllTaskBtn = document.getElementById("deleteAllTaskBtn");
 const todoslistEl = document.getElementById("todos-list");
+const todosCountEl = document.getElementById("todosCount");
+const addModelEl = document.getElementById("add-modal");
+const addModelCloseBtn = document.getElementById("add-model-close-btn");
+const addTaskFoatingBtn = document.getElementById("add-floating-btn");
 
 let todoManger;
 (function setupPage() {
@@ -58,8 +86,25 @@ let todoManger;
   renderTodos(todoManger.todosList);
 })();
 
+addModelCloseBtn.addEventListener("click", function () {
+  clearAddModalValue();
+});
+addTaskFoatingBtn.addEventListener("click", function () {
+  addModelEl.style.display = "flex";
+});
+
+function clearAddModalValue() {
+  inputTitle.value = "";
+  inputDesc.value = "";
+  addModelEl.style.display = "none";
+}
+
 addTaskBtn.addEventListener("click", function () {
-  if (isEmpty(inputTitle.value)) return;
+  if (isEmpty(inputTitle.value)) {
+    alert("Title must be present");
+    return;
+  }
+
   const task = {
     id: Date.now(),
     title: clearInput(inputTitle.value),
@@ -68,8 +113,7 @@ addTaskBtn.addEventListener("click", function () {
   };
   todoManger.addTask(task);
   renderTodos(todoManger.todosList);
-  inputTitle.value = "";
-  inputDesc.value = "";
+  clearAddModalValue();
 });
 
 deleteAllTaskBtn.addEventListener("click", function () {
@@ -77,29 +121,66 @@ deleteAllTaskBtn.addEventListener("click", function () {
   renderTodos(todoManger.todosList);
 });
 
+function taskLIElementTemplate(currentTask) {
+  return `<li class="todo-item" >
+<div onclick="markDone(${currentTask.id})" class="iconEmpty ${
+    currentTask.isDone ? "iconTick" : ""
+  }">${currentTask.isDone ? "&#10003" : " "}</div>
+<div class="item-content">
+ <input value="${currentTask.title}" onblur="updateTaskTitle(${
+    currentTask.id
+  },this.value)" class="item-title-content ${
+    currentTask.isDone ? "strikethrough" : ""
+  }"></input>
+ <textarea  spellcheck="false" onblur="updateTaskDesc(${
+   currentTask.id
+ },this.value)" class="item-desc-content ${
+    currentTask.isDone ? "strikethrough" : ""
+  }">${currentTask.desc}</textarea>
+</div>
+<div class="item-trailing">
+<button onclick="deleteTodo(${currentTask.id})">\u00d7</button> 
+<div>
+</li>`;
+}
+
 function renderTodos(todos) {
   // todoslistEl.innerHTML = "";
   if (todos.length == 0) {
+    todosCountEl.textContent = 0;
     todoslistEl.innerHTML = "<p>No items</p>";
     return;
   }
   let listcontent = "";
-  for (let i = 0; i < todos.length; i++) {
-    const div = `<div class="icon"> </div>`;
-
-    const todoElement = `<li class="todo-item" onclick="markDone(${todos[i].id})">
-    <div class="icon ${todos[i].isDone ? "iconTick" : ""}">${todos[i].isDone ? "&#10003" : " "}</div>
-    <div class="item-content">
-     <p class="item-title-content">${todos[i].title}</p>
-     <p class="item-desc-content">${todos[i].desc}</p>
-    </div>
-    <div class="item-trailing">
-    <button onclick="deleteTodo(${todos[i].id})">\u00d7</button> 
-    <div>
-    </li>`;
-    listcontent += todoElement;
+  todosCountEl.textContent = todos.length || 0;
+  const isDoneList = todos.filter((e) => e.isDone === true);
+  const isNotDoneList = todos.filter((e) => e.isDone === false);
+  
+  for (let i = 0; i < isNotDoneList.length; i++) {
+    const currentTask = isNotDoneList[i];
+    const taskLIElement = taskLIElementTemplate(currentTask);
+    listcontent += taskLIElement;
   }
+  for (let i = 0; i < isDoneList.length; i++) {
+    const currentTask = isDoneList[i];
+    const taskLIElement = taskLIElementTemplate(currentTask);
+    listcontent += taskLIElement;
+  }
+
+
   todoslistEl.innerHTML = listcontent;
+}
+
+function updateTaskTitle(id, newValue) {
+  if (isEmpty(newValue)) return;
+  todoManger.updateTaskTitle(id, clearInput(newValue));
+  renderTodos();
+}
+
+function updateTaskDesc(id, newValue) {
+  if (isEmpty(newValue)) return;
+  todoManger.updateTaskDesc(id, clearInput(newValue));
+  renderTodos();
 }
 
 function deleteTodo(id) {
@@ -108,7 +189,7 @@ function deleteTodo(id) {
 }
 function markDone(id) {
   todoManger.markDone(id);
-  renderTodos(todoManger.todosList)
+  renderTodos(todoManger.todosList);
 }
 
 function clearInput(value) {

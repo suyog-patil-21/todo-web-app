@@ -12,22 +12,31 @@
   <body>
     <main>
         <div class="mainContainer">
-            <h1 id="title">Todo</h1>
+            <h1 id="title">Todo <span id="todosCount"></span></h1>
             <section id="todo-list-section">
                 <ul id="todos-list">
                 </ul>
+                <button id="deleteAllTaskBtn">Delete All</button>
             </section>
-            <section >
-                <div id="todo-add-section" >
-                    <input id="inputTitle" class="inputElements" type="text" name="taskTitle" placeholder="Task name here..."></input>
-                    <textarea id="inputdesc" class="inputElements" type="" name="taskTitle" placeholder="Task name here..."></textarea>
-                    <div class="todo-add-panel-bottom">
-                        <button id="addTaskBtn">Add Task</button>
-                        <button id="deleteAllTaskBtn">Delete All</button>
-                    </div>                   
+            <section id="add-modal" >
+              <div class="modal">
+                <div class="add-model-header">
+                  <p>Add Model</p>
+                  <div id="add-model-close-btn" class="close-btn">&times;</div>
+              </div>
+                <div class="add-modal-content">
+                  <div id="todo-add-section" >
+                      <input id="inputTitle" class="inputElements" type="text" name="taskTitle" placeholder="Task name here..."></input>
+                      <textarea id="inputdesc" class="inputElements" type="" name="taskTitle" placeholder="Task name here..."></textarea>
+                      <div class="todo-add-panel-bottom">
+                          <button id="addTaskBtn">Add Task</button>
+                      </div>                   
+                  </div>
                 </div>
+              </div>
             </section>
-        </div>
+            <div id="add-floating-btn"> + </div>
+          </div>
     </main>
     <script src="index.js"></script>
   </body>
