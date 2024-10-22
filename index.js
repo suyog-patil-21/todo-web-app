@@ -122,30 +122,43 @@ deleteAllTaskBtn.addEventListener("click", function () {
 });
 
 function taskLIElementTemplate(currentTask) {
-  return `<li class="todo-item" >
-<div onclick="markDone(${currentTask.id})" class="iconEmpty ${
-    currentTask.isDone ? "iconTick" : ""
-  }">${currentTask.isDone ? "&#10003" : " "}</div>
+  return `<li id="${currentTask.id}" class="todo-item" >
+<div class="iconEmpty ${currentTask.isDone ? "iconTick" : ""}">${
+    currentTask.isDone ? "&#10003" : " "
+  }</div>
 <div class="item-content">
- <input value="${currentTask.title}" onblur="updateTaskTitle(${
-    currentTask.id
-  },this.value)" class="item-title-content ${
+ <input value="${currentTask.title}" class="item-title-content ${
     currentTask.isDone ? "strikethrough" : ""
   }"></input>
- <textarea  spellcheck="false" onblur="updateTaskDesc(${
-   currentTask.id
- },this.value)" class="item-desc-content ${
+ <textarea  spellcheck="false" class="item-desc-content ${
     currentTask.isDone ? "strikethrough" : ""
   }">${currentTask.desc}</textarea>
 </div>
 <div class="item-trailing">
-<button onclick="deleteTodo(${currentTask.id})">\u00d7</button> 
+<button class="li-single-delete-btn">\u00d7</button> 
 <div>
 </li>`;
 }
 
+todoslistEl.addEventListener("input", function (e) {
+  if (e.target.classList.contains("item-title-content")) {
+    updateTaskTitle(e.target.parentElement.parentElement.id, e.target.value);
+  }
+  if (e.target.classList.contains("item-desc-content")) {
+    updateTaskDesc(e.target.parentElement.parentElement.id, e.target.value);
+  }
+});
+
+todoslistEl.addEventListener("click", function (e) {
+  if (e.target.classList.contains("li-single-delete-btn")) {
+    deleteTodo(e.target.parentElement.parentElement.id);
+  }
+  if (e.target.classList.contains("iconEmpty")) {
+    markDone(e.target.parentElement.id);
+  }
+});
+
 function renderTodos(todos) {
-  // todoslistEl.innerHTML = "";
   if (todos.length == 0) {
     todosCountEl.textContent = 0;
     todoslistEl.innerHTML = "<p>No items</p>";
@@ -155,7 +168,7 @@ function renderTodos(todos) {
   todosCountEl.textContent = todos.length || 0;
   const isDoneList = todos.filter((e) => e.isDone === true);
   const isNotDoneList = todos.filter((e) => e.isDone === false);
-  
+
   for (let i = 0; i < isNotDoneList.length; i++) {
     const currentTask = isNotDoneList[i];
     const taskLIElement = taskLIElementTemplate(currentTask);
@@ -167,23 +180,21 @@ function renderTodos(todos) {
     listcontent += taskLIElement;
   }
 
-
   todoslistEl.innerHTML = listcontent;
 }
 
 function updateTaskTitle(id, newValue) {
   if (isEmpty(newValue)) return;
   todoManger.updateTaskTitle(id, clearInput(newValue));
-  renderTodos(todoManger.todosList);
 }
 
 function updateTaskDesc(id, newValue) {
   if (isEmpty(newValue)) return;
   todoManger.updateTaskDesc(id, clearInput(newValue));
-  renderTodos(todoManger.todosList);
 }
 
 function deleteTodo(id) {
+  console.log("deleting " + id);
   todoManger.deleteTask(id);
   renderTodos(todoManger.todosList);
 }
