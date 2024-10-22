@@ -174,13 +174,13 @@ function renderTodos(todos) {
 function updateTaskTitle(id, newValue) {
   if (isEmpty(newValue)) return;
   todoManger.updateTaskTitle(id, clearInput(newValue));
-  renderTodos();
+  renderTodos(todoManger.todosList);
 }
 
 function updateTaskDesc(id, newValue) {
   if (isEmpty(newValue)) return;
   todoManger.updateTaskDesc(id, clearInput(newValue));
-  renderTodos();
+  renderTodos(todoManger.todosList);
 }
 
 function deleteTodo(id) {
