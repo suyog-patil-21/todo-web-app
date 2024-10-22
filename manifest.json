@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Todo List",
     "version": "1.0.0",
-    "description": "A basic example extension with only required keys",
+    "description": "A basic Todo list app with local storage",
     "icons": {
         "16": "images/icon-16.png",
         "64": "images/icon-64.png",
